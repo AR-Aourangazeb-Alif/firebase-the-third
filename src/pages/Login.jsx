@@ -3,11 +3,15 @@ import { UserContext } from "../context/UserContextProvider";
 import auth from "../firebase/firebase.config";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 const Login = () => {
     const [failed, setFailed] = useState("");
     const [success, setSuccess] = useState("");
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const { setLogin } = useContext(UserContext);
 
@@ -23,9 +27,9 @@ const Login = () => {
             })
             .catch(error => {
                 setFailed(error.message);
-                if(error.message === "Firebase: Error (auth/invalid-login-credentials)."){
+                if (error.message === "Firebase: Error (auth/invalid-login-credentials).") {
                     setFailed("Wrong email or password");
-                }else{
+                } else {
                     setFailed(error.message);
                 }
                 console.log(error.message);
@@ -50,14 +54,27 @@ const Login = () => {
             <div className="max-w-[500px] w-[95%] p-6 bg-base-300 rounded-xl shadow-xl">
                 <form
                     onSubmit={handleSubmit}
-                    className="flex flex-col gap-6 w-full">
+                    className="flex flex-col w-full">
 
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 mb-2">
                         <input className="p-3 rounded-lg" type="email" name="email" id="email" placeholder="Enter your email" required />
-                        <input className="p-3 rounded-lg" type="password" name="password" id="password" placeholder="Enter your password" required />
+
+                        <div className="relative">
+                            <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute text-xl right-2 top-3 text-primary cursor-pointer">
+
+                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+
+                            </span>
+
+                            <input className="p-3 pr-8 rounded-lg w-full" type={`${showPassword ? "text" : "password"}`} name="password" id="password" placeholder="Enter your password" required />
+                        </div>
                     </div>
 
-                    <h1 className="text-info font-medium text-sm">forget password ?</h1>
+                    <Link
+                        to={'/resetPassword'}
+                        className="text-info font-medium text-sm mb-8">forget password ?</Link>
 
                     <div className='flex flex-col relative'>
 
@@ -73,6 +90,11 @@ const Login = () => {
                     <button className="flex items-center justify-center border-2 border-base-100 rounded-md shadow-xl p-2 text-4xl active:scale-95 transition-transform" onClick={googleSignIn}><FcGoogle /></button>
 
                 </div>
+
+                <Link
+                    to={'/register'}
+                    className="text-primary">Don&apos;t have any account ? <span className="font-medium">Register</span></Link>
+
             </div>
 
         </div>

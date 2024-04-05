@@ -1,12 +1,16 @@
 
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup, updateProfile } from 'firebase/auth';
 import auth from '../firebase/firebase.config';
 import { useContext, useState } from 'react';
 import { UserContext } from '../context/UserContextProvider';
 import { FcGoogle } from 'react-icons/fc';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 
 const Register = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const [success, setSuccess] = useState("");
     const [failed, setFailed] = useState("");
@@ -33,6 +37,12 @@ const Register = () => {
                         setLogin(loginWithName)
                     });
 
+                //email verification
+                sendEmailVerification(Result.user)
+                    .then(() => {
+                        alert("Verify your email. Click on the link we sent you through email")
+                    });
+
             })
             .catch(error => {
                 setFailed(error.message);
@@ -43,13 +53,13 @@ const Register = () => {
     // signIn with google
     const googleProvider = new GoogleAuthProvider();
 
-    const googleSignIn = () =>{
+    const googleSignIn = () => {
         signInWithPopup(auth, googleProvider)
-        .then(Result => {
-            console.log(Result.user);
-            setLogin(Result.user);
-        })
-        .catch(error => console.log(error.message));
+            .then(Result => {
+                console.log(Result.user);
+                setLogin(Result.user);
+            })
+            .catch(error => console.log(error.message));
     }
 
     return (
@@ -65,7 +75,17 @@ const Register = () => {
 
                         <input className="p-3 rounded-lg" type="email" name="email" id="email" placeholder="Enter your email" required />
 
-                        <input className="p-3 rounded-lg" type="password" name="password" id="password" placeholder="Enter your password" required />
+                        <div className="relative">
+                            <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute text-xl right-2 top-3 text-primary cursor-pointer">
+
+                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+
+                            </span>
+
+                            <input className="p-3 pr-8 rounded-lg w-full" type={`${showPassword ? "text" : "password"}`} name="password" id="password" placeholder="Enter your password" required />
+                        </div>
                     </div>
 
                     <div className='flex flex-col relative'>
@@ -81,6 +101,10 @@ const Register = () => {
                     <button className="flex items-center justify-center border-2 border-base-100 rounded-md shadow-xl p-2 text-4xl active:scale-95 transition-transform" onClick={googleSignIn}><FcGoogle /></button>
 
                 </div>
+
+                <Link
+                    to={'/login'}
+                    className='text-primary'>Already have an account ? <span className='font-medium'>LogIn</span></Link>
             </div>
         </div>
     );
