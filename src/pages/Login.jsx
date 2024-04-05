@@ -25,6 +25,8 @@ const Login = () => {
                 setFailed(error.message);
                 if(error.message === "Firebase: Error (auth/invalid-login-credentials)."){
                     setFailed("Wrong email or password");
+                }else{
+                    setFailed(error.message);
                 }
                 console.log(error.message);
             })
