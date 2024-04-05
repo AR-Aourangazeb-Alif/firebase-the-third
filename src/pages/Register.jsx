@@ -23,6 +23,12 @@ const Register = () => {
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
+        const terms = e.target.terms.checked;
+
+        if (!terms) {
+            setFailed("Accept our terms and conditions");
+            return;
+        }
 
         createUserWithEmailAndPassword(auth, email, password)
             .then(Result => {
@@ -86,7 +92,13 @@ const Register = () => {
 
                             <input className="p-3 pr-8 rounded-lg w-full" type={`${showPassword ? "text" : "password"}`} name="password" id="password" placeholder="Enter your password" required />
                         </div>
+
+                        <div className='flex items-center gap-2'>
+                            <input type="checkbox" name="terms" id="terms" />
+                            <label htmlFor="terms"><a className='text-info' href="">Accept our terms and conditions</a></label>
+                        </div>
                     </div>
+
 
                     <div className='flex flex-col relative'>
 
