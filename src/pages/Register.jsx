@@ -24,6 +24,7 @@ const Register = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         const terms = e.target.terms.checked;
+        const photo = e.target.photo.value;
 
         if (!terms) {
             setFailed("Accept our terms and conditions");
@@ -37,6 +38,7 @@ const Register = () => {
                 //set name
                 updateProfile(Result.user, {
                     displayName: name,
+                    photoURL: photo,
                 })
                     .then(() => {
                         const loginWithName = Result.user;
@@ -77,20 +79,28 @@ const Register = () => {
 
                     <div className="flex flex-col gap-2">
 
-                        <input className="p-3 rounded-lg w-full" type="text" name="name" id="name" placeholder="Enter your name" required />
+                        <div className='flex gap-2'>
+                            <input className="p-3 rounded-lg w-full" type="text" name="name" id="name" placeholder="Enter your name" required />
 
-                        <input className="p-3 rounded-lg" type="email" name="email" id="email" placeholder="Enter your email" required />
+                            <input className="p-3 rounded-lg w-full" type="email" name="email" id="email" placeholder="Enter your email" required />
+                        </div>
 
-                        <div className="relative">
-                            <span
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute text-xl right-2 top-3 text-primary cursor-pointer">
+                        <div className='flex gap-2'>
+                            <div className='w-full'>
+                                <input className="p-3 rounded-lg w-full" type="text" name="photo" id="photo" placeholder="Enter profile photo URL" />
+                            </div>
 
-                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                            <div className="relative w-full">
+                                <span
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute text-xl right-2 top-3 text-primary cursor-pointer">
 
-                            </span>
+                                    {showPassword ? <FaEye /> : <FaEyeSlash />}
 
-                            <input className="p-3 pr-8 rounded-lg w-full" type={`${showPassword ? "text" : "password"}`} name="password" id="password" placeholder="Enter your password" required />
+                                </span>
+
+                                <input className="p-3 pr-8 rounded-lg w-full" type={`${showPassword ? "text" : "password"}`} name="password" id="password" placeholder="Enter your password" required />
+                            </div>
                         </div>
 
                         <div className='flex items-center gap-2'>
