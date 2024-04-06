@@ -46,6 +46,7 @@ const Register = () => {
                     displayName: name,
                     photoURL: photo,
                 });
+                
 
 
                 //email verification
@@ -126,9 +127,11 @@ const Register = () => {
 
                 </div>
 
-                <Link
-                    to={'/login'}
-                    className='text-primary'>Already have an account ? <span className='font-medium'>LogIn</span></Link>
+                <div className='flex items-center justify-center'>
+                    <Link
+                        to={'/login'}
+                        className='text-primary'>Already have an account ? <span className='font-medium'>LogIn</span></Link>
+                </div>
             </div>
         </div>
     );

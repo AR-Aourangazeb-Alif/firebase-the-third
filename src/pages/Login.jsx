@@ -88,9 +88,12 @@ const Login = () => {
 
                 </div>
 
-                <Link
-                    to={'/register'}
-                    className="text-primary">Don&apos;t have any account ? <span className="font-medium">Register</span></Link>
+                <div className="flex items-center justify-center">
+                    <Link
+                        to={'/register'}
+                        className="text-primary">Don&apos;t have any account ? <span className="font-medium">Register</span>
+                    </Link>
+                </div>
 
             </div>
 
