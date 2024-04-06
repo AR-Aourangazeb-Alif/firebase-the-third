@@ -1,8 +1,14 @@
 
-import { GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup, updateProfile } from 'firebase/auth';
+import {
+    GoogleAuthProvider,
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
+    signInWithPopup,
+    updateProfile
+} from 'firebase/auth';
 import auth from '../firebase/firebase.config';
-import { useContext, useState } from 'react';
-import { UserContext } from '../context/UserContextProvider';
+import { useState } from 'react';
+// import { UserContext } from '../context/UserContextProvider';
 import { FcGoogle } from 'react-icons/fc';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -15,7 +21,7 @@ const Register = () => {
     const [success, setSuccess] = useState("");
     const [failed, setFailed] = useState("");
 
-    const { setLogin } = useContext(UserContext);
+    // const { setLogin } = useContext(UserContext);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -39,11 +45,8 @@ const Register = () => {
                 updateProfile(Result.user, {
                     displayName: name,
                     photoURL: photo,
-                })
-                    .then(() => {
-                        const loginWithName = Result.user;
-                        setLogin(loginWithName)
-                    });
+                });
+
 
                 //email verification
                 sendEmailVerification(Result.user)
@@ -65,7 +68,6 @@ const Register = () => {
         signInWithPopup(auth, googleProvider)
             .then(Result => {
                 console.log(Result.user);
-                setLogin(Result.user);
             })
             .catch(error => console.log(error.message));
     }

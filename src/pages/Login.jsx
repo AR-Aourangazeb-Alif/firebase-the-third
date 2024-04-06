@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../context/UserContextProvider";
+import { useState } from "react";
+// import { UserContext } from "../context/UserContextProvider";
 import auth from "../firebase/firebase.config";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { FcGoogle } from "react-icons/fc";
@@ -13,7 +13,6 @@ const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
 
-    const { setLogin } = useContext(UserContext);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -22,7 +21,6 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then(Result => {
                 setSuccess("Login succesful")
-                setLogin(Result.user);
                 console.log(Result.user);
             })
             .catch(error => {
@@ -43,7 +41,6 @@ const Login = () => {
         signInWithPopup(auth, googleProvider)
             .then(Result => {
                 console.log(Result.user);
-                setLogin(Result.user);
             })
             .catch(error => console.log(error.message));
     }
